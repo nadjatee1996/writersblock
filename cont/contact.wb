@@ -1,0 +1,17 @@
+<?php
+include('public.wb');
+class Controller{
+	public function submitted($contactText){
+		$sentIP= $_SERVER['REMOTE_ADDR'];
+		$content = mysql_real_escape_string($contactText);
+		if(isset($_COOKIE["_data"]))
+		{
+			insert("INSERT INTO `feedback` (`u_id`,`sentIP`,`content`) VALUES ('".returnData()->u_id."','$sentIP','$content');","");
+		}
+		else
+		{
+			insert("INSERT INTO `feedback` (`sentIP`,`content`) VALUES ('$sentIP','$content');","");
+		}
+	}
+}
+?>

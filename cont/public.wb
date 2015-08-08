@@ -1,0 +1,27 @@
+<?php
+
+	function insert($query,$error)
+	{
+		$db = new PDO('mysql:host=localhost;dbname=writersblock;charset=utf8', 'root', '');
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		try {
+			$db->query($query); 
+		} catch(PDOException $ex) {
+			echo $error; 
+			$db->query("INSERT INTO `errors` (`error`) VALUES ('$query');");
+		}
+		$db = null;
+	}	
+	function get($query)
+	{
+		$db = new PDO('mysql:host=localhost;dbname=writersblock;charset=utf8', 'root', '');
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		mysql_escape_string($query);
+		$results = $db->query($query);
+		
+		$array = $results->fetchAll(PDO::FETCH_ASSOC);
+	
+		return $array;
+	}	
+
+?>
