@@ -1,39 +1,24 @@
 <?php
 include("header.wb");
 include("cont/contact.wb");
-class View{
-	private $controller;
-	
-	public function __construct($controller){
-		$this->controller = $controller;
-	}
-
-	public function output(){
-		return "<form id='contactForm' method='POST' action='http://127.0.0.1/contact'>
-		Comments? Feedback? Just want someone to talk to? Send us a message!
-		<textarea name='contactText' id='contactText' col='300' row='30'></textarea>
-		<input type='Submit' name='contactSubmit' id='contactSubmit'>
-		</form>";
-	}
-	
-	public function received(){
-		return "<div id='contactSent'>
+if(isset($_GET['received']))
+{
+	echo "<div id='contactSent'>
 			Your comment has been received. We appreciate your feedback.
-		</div>";
-	}
+	</div>";
 }
+?>
+<form id='contactForm' method='POST' action='http://127.0.0.1/contact'>
+Comments? Feedback? Just want someone to talk to? Send us a message!
+<textarea name='contactText' id='contactText' col='300' row='30'></textarea>
+<input type='Submit' name='contactSubmit' id='contactSubmit'>
+</form>
+<?php	
 $controller = new Controller();
-$view = new View($controller);
 if(isset($_POST['contactSubmit']) && !empty($_POST['contactText']))
 {
 	$controller->submitted($_POST['contactText']);
 	header('Location: http://127.0.0.1/contact?received=true');
-		
 }
-if(isset($_GET['received']))
-{
-	echo $view->received();
-}
-echo $view->output();
 include('footer.wb');
 ?>
